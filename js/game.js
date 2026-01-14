@@ -1,7 +1,7 @@
-import Character from './characters.js';
-import DialogueSystem from './dialogue.js';
-import CombatSystem from './combat.js';
-import EndingSystem from './endings.js';
+import Character from './characters.js?v=100';
+import DialogueSystem from './dialogue.js?v=100';
+import CombatSystem from './combat.js?v=100';
+import EndingSystem from './endings.js?v=100';
 
 class Game {
     constructor() {
@@ -17,6 +17,8 @@ class Game {
             startBtn: document.getElementById('start-btn'),
             dialogueBox: document.getElementById('dialogue-box'),
             actionMenu: document.getElementById('action-menu'),
+            actionMenu: document.getElementById('action-menu'),
+            hamletHealth: document.querySelector('#hamlet-status .health-fill'),
             hamletHealth: document.querySelector('#hamlet-status .health-fill'),
             opponentStatus: document.getElementById('opponent-status'),
             opponentName: document.querySelector('#opponent-status .name'),

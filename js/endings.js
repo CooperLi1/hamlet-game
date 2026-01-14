@@ -43,13 +43,27 @@ export default class EndingSystem {
         if (type === 'WARN_QUEEN') {
             sequence = [
                 { speaker: "Hamlet", text: "Mother, do not drink!" },
-                { speaker: "Queen Gertrude", text: "I will, my lord; I pray you, pardon me." },
+                { text: "Gertrude lowers the cup. She waits, watching the duel with concern." },
+                {
+                    text: "Laertes prepares to strike while you are distracted...",
+                    callback: () => {
+                        this.game.combatSystem.nextTurn();
+                    }
+                }
+            ];
+        }
+
+        if (type === 'QUEEN_DRINKS_NATURAL') {
+            sequence = [
+                { speaker: "Queen Gertrude", text: "The Queen carouses to thy fortune, Hamlet." },
                 {
                     text: "She lifts the cup to her lips...",
                     callback: () => {
                         this.game.triggerDrinkAnimation(this.game.queen);
                     }
                 },
+                { speaker: "King Claudius", text: "Gertrude, do not drink!" },
+                { speaker: "Queen Gertrude", text: "I will, my lord; I pray you, pardon me." },
                 { speaker: "Queen Gertrude", text: "The drink, the drink! I am poison'd." },
                 {
                     text: "She drinks. The poison works instantly.",
@@ -82,10 +96,11 @@ export default class EndingSystem {
             { speaker: "Laertes", text: "I am justly killed with mine own treachery..." },
             { speaker: "Hamlet", text: "The point!--envenom'd too! Then, venom, to thy work." },
             {
-                text: "Hamlet wounds the King. The King dies.", callback: () => {
+                text: "Hamlet wounds the King.", callback: () => {
                     this.game.king.isDead = true;
                 }
             },
+            { speaker: "Hamlet", text: "Here, thou incestuous, murderous, damned Dane, Drink off this potion. Is thy union here? Follow my mother." },
             { speaker: "Laertes", text: "Exchange forgiveness with me, noble Hamlet..." },
             {
                 speaker: "Hamlet", text: "Heaven make thee free of it! I follow thee.", callback: () => {
@@ -128,7 +143,9 @@ export default class EndingSystem {
                 text: "In your last breath, you finally strike at the King.", callback: () => {
                     this.game.king.isDead = true;
                 }
-            }
+            },
+            { speaker: "Hamlet", text: "Here, thou incestuous, murderous, damned Dane, Drink off this potion. Is thy union here? Follow my mother." },
+            { text: "The rest is silence." }
         ];
     }
 }

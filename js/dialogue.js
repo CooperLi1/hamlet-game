@@ -17,7 +17,7 @@ export default class DialogueSystem {
         this.game.ui.actionMenu.classList.add('hidden');
 
         this.queue = [
-            { text: "The King, the Queen, and all the court are here." },
+            { speaker: "Osric", text: "The King and Queen and all are coming down." },
             { speaker: "King Claudius", text: "Come, Hamlet, come, and take this hand from me." },
             { speaker: "Laertes", text: "I am satisfied in nature, whose motive, in this case, should stir me most to my revenge." },
             { speaker: "Hamlet", text: "I embrace it freely; and will this brother's wager frankly play." },
@@ -34,7 +34,9 @@ export default class DialogueSystem {
             { speaker: "Hamlet", text: "One." },
             { speaker: "Laertes", text: "No." },
             { speaker: "Hamlet", text: "Judgment." },
-            { speaker: "Osric", text: "A hit, a very palpable hit." }
+            { speaker: "Osric", text: "A hit, a very palpable hit." },
+            { speaker: "Hamlet", text: "Another hit; what say you?" },
+            { speaker: "Laertes", text: "A touch, a touch, I do confess." }
         ];
 
         // Pick a random line or sequence for now

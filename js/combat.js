@@ -95,7 +95,7 @@ export default class CombatSystem {
         if (this.warnedQueen || this.game.queen.isDead) {
             this.game.dialogueSystem.queue.push({
                 speaker: "Hamlet",
-                text: "Thou pray'st not well.",
+                text: "I am afeard you make a wanton of me.",
                 callback: () => this.nextTurn()
             });
             this.game.dialogueSystem.next();
@@ -117,30 +117,10 @@ export default class CombatSystem {
                     callback: () => {
                         this.game.dialogueSystem.queue.push({
                             speaker: "Hamlet",
-                            text: "Thou pray'st not well.",
+                            text: "Come, for the third, Laertes: you but dally.",
                             callback: () => this.nextTurn()
                         });
                         this.game.dialogueSystem.next();
-                    }
-                }
-            ]);
-            return;
-        }
-
-        // Priority 2: Low Health Opponent (Mercy)
-        if (this.game.opponent.currentHealth < 30) {
-            this.game.dialogueSystem.showChoice([
-                {
-                    text: "Offer Mercy / Spare Life",
-                    callback: () => {
-                        this.game.endingSystem.triggerEnding('SPARE_LAERTES');
-                    }
-                },
-                {
-                    text: "Demand Surrender",
-                    callback: () => {
-                        this.game.dialogueSystem.showDialogue("Hamlet", "Yield, or I shall end thee.");
-                        this.nextTurn();
                     }
                 }
             ]);
@@ -188,8 +168,22 @@ export default class CombatSystem {
         this.turn = this.turn === 'PLAYER' ? 'ENEMY' : 'PLAYER';
 
         // Check for Delayed Ending
-        if (this.game.turnCount > 15) {
+        if (this.game.turnCount > 25) {
             this.game.endingSystem.triggerEnding('DELAY_STRIKE');
+            return;
+        }
+
+        // Queen's Fate: Dies on Turn 8 if not warned
+        if (this.game.turnCount === 8 && !this.warnedQueen && !this.game.queen.isDead) {
+            // Trigger Queen death sequence (without player input)
+            this.game.endingSystem.triggerEvent('WARN_QUEEN'); // Reuse event or make new one?
+            // WARN_QUEEN event implies conversation. Let's make a specific 'QUEEN_DEATH' or just reuse WARN_QUEEN but maybe change text dynamically?
+            // Simplest: Just use WARN_QUEEN logic but without the choice.
+            // Actually, triggerEvent('WARN_QUEEN') starts with "Mother do not drink!".
+            // If she drinks naturally, it should be different.
+            // Let's rely on a new event or handle it here?
+            // Let's trigger a variant.
+            this.game.endingSystem.triggerEvent('QUEEN_DRINKS_NATURAL');
             return;
         }
 
@@ -251,6 +245,9 @@ export default class CombatSystem {
                 btn.disabled = false;
             }
         });
+
+        // Toggle Spare Button - REMOVED
+
     }
 
     updateButtons() {
