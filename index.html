@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamlet: The Final Duel</title>
+    <link rel="stylesheet" href="css/style.css?v=2">
+</head>
+
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas" width="800" height="600"></canvas>
+
+        <div id="ui-overlay">
+            <div id="status-bar">
+                <div class="character-status" id="hamlet-status">
+                    <span class="name">Hamlet</span>
+                    <div class="health-bar">
+                        <div class="health-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+                <!-- Boss status will appear here dynamically -->
+                <div class="character-status" id="opponent-status" style="display:none;">
+                    <span class="name">Laertes</span>
+                    <div class="health-bar">
+                        <div class="health-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dialogue-box" class="hidden">
+                <p id="dialogue-text"></p>
+                <button id="dialogue-next" class="hidden">Continue</button>
+            </div>
+
+            <div id="action-menu" class="hidden">
+                <button class="action-btn" data-action="attack">Attack</button>
+                <button class="action-btn" data-action="defend">Defend</button>
+                <button class="action-btn" data-action="speak">Speak</button>
+                <button class="action-btn special" data-action="kill-king" disabled
+                    title="The spirit that I have seen may be the devil...">Kill King</button>
+            </div>
+
+            <div id="settings-controls"
+                style="position: absolute; top: 15px; left: 50%; transform: translateX(-50%); color: var(--accent-gold); display: flex; flex-direction: column; align-items: center; width: 200px; pointer-events: auto; z-index: 20;">
+                <label for="speed-slider"
+                    style="margin-bottom: 5px; font-size: 0.9em; text-transform: uppercase; font-family: 'Times New Roman', serif; letter-spacing: 1px; text-shadow: 1px 1px 0 #000;">Animation
+                    Speed</label>
+                <input type="range" id="speed-slider" min="1" max="5" step="0.5" value="1"
+                    style="width: 100%; cursor: pointer; accent-color: var(--accent-red);">
+            </div>
+        </div>
+
+        <div id="start-screen">
+            <h1>Hamlet: The Final Duel</h1>
+            <p>Act V, Scene 2</p>
+            <button id="start-btn">Begin Duel</button>
+        </div>
+    </div>
+
+    <script type="module" src="js/game.js?v=26"></script>
+</body>
+
+</html>
