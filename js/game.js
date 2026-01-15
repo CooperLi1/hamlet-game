@@ -1,12 +1,21 @@
-import Character from './characters.js?v=100';
-import DialogueSystem from './dialogue.js?v=100';
-import CombatSystem from './combat.js?v=100';
-import EndingSystem from './endings.js?v=100';
+import Character from './characters.js?v=101';
+import DialogueSystem from './dialogue.js?v=101';
+import CombatSystem from './combat.js?v=101';
+import EndingSystem from './endings.js?v=101';
 
 class Game {
     constructor() {
         this.canvas = document.getElementById('game-canvas');
         this.ctx = this.canvas.getContext('2d');
+
+        // Handle High DPI displays
+        const dpr = window.devicePixelRatio || 1;
+        const rect = this.canvas.getBoundingClientRect();
+        this.canvas.width = rect.width * dpr;
+        this.canvas.height = rect.height * dpr;
+        this.ctx.scale(dpr, dpr);
+        this.ctx.imageSmoothingEnabled = true;
+        this.ctx.imageSmoothingQuality = 'high';
 
         this.state = 'START'; // START, DIALOGUE, COMBAT, END
 
@@ -171,24 +180,24 @@ class Game {
                 if (attacker.isPlayer) {
                     // Hamlet matches Laertes
                     // Draw Opponent (Defender)
-                    this.drawCharacter(this.opponent, 600 + opponentOffset.x, 400 + opponentOffset.y);
+                    this.drawCharacter(this.opponent, 600 + opponentOffset.x, 440 + opponentOffset.y);
 
                     // Draw Opponent Shield? (Not implemented nicely yet, but if they had one)
                     // ...
 
                     // Draw Player (Attacker)
-                    this.drawCharacter(this.player, 200 + playerOffset.x, 400 + playerOffset.y);
+                    this.drawCharacter(this.player, 200 + playerOffset.x, 440 + playerOffset.y);
 
                 } else {
                     // Laertes attacks Hamlet
                     // Draw Player (Defender)
-                    this.drawCharacter(this.player, 200 + playerOffset.x, 400 + playerOffset.y);
+                    this.drawCharacter(this.player, 200 + playerOffset.x, 440 + playerOffset.y);
 
                     // Draw Shield (Hamlet's) - LAYERED HERE
                     this.drawShield();
 
                     // Draw Opponent (Attacker)
-                    this.drawCharacter(this.opponent, 600 + opponentOffset.x, 400 + opponentOffset.y);
+                    this.drawCharacter(this.opponent, 600 + opponentOffset.x, 440 + opponentOffset.y);
                 }
 
                 // Draw Boom (Always Top)
@@ -196,9 +205,9 @@ class Game {
 
             } else {
                 // No active attack, standard layering
-                this.drawCharacter(this.player, 200 + playerOffset.x, 400 + playerOffset.y);
+                this.drawCharacter(this.player, 200 + playerOffset.x, 440 + playerOffset.y);
                 this.drawShield(); // Shield on top of player
-                this.drawCharacter(this.opponent, 600 + opponentOffset.x, 400 + opponentOffset.y);
+                this.drawCharacter(this.opponent, 600 + opponentOffset.x, 440 + opponentOffset.y);
                 this.drawBoom(); // Should be none, but safe to call
             }
         }
@@ -245,7 +254,8 @@ class Game {
             // Accessing original dimensions might be needed, but assuming a standard size for now
             // or scaling. Let's start with a fixed height and keep aspect ratio if possible, 
             // or just simple centering.
-            const h = 150;
+            // Increasing character size from 150 to 280
+            const h = 280;
             const w = (img.width / img.height) * h;
             this.ctx.drawImage(img, -w / 2, -h + 10, w, h);
         } else {
@@ -290,7 +300,7 @@ class Game {
 
         if (this.images[imgKey]) {
             const img = this.images[imgKey];
-            const h = 100; // Smaller for background
+            const h = 180; // Increased from 100 for background
             const w = (img.width / img.height) * h;
             this.ctx.drawImage(img, -w / 2, -h + 10, w, h);
         } else {
@@ -307,7 +317,7 @@ class Game {
             if (anim.type === 'attack' && anim.boomShown && this.images['boom']) {
                 const x = anim.targetX;
                 const y = 350;
-                const size = 100;
+                const size = 180; // Increased from 100
                 this.ctx.drawImage(this.images['boom'], x - size / 2, y - size / 2, size, size);
             }
         });
@@ -317,8 +327,8 @@ class Game {
         // Persist Shield if player is defending
         if (this.combatSystem.playerDefending && this.images['shield']) {
             const x = 250; // Player defend impact zone
-            const size = 120;
-            this.ctx.drawImage(this.images['shield'], x - size / 2, 350, size, size);
+            const size = 200; // Increased from 120
+            this.ctx.drawImage(this.images['shield'], x - size / 2, 330, size, size); // Adjusted y
         }
 
         // Also check for temporary defend animations (e.g. opponent)
@@ -328,8 +338,8 @@ class Game {
                 if (!anim.actor.isPlayer) x = 550;
                 // Only draw if NOT player (since player is handled by persist check above, prevents double draw)
                 if (!anim.actor.isPlayer) {
-                    const size = 120;
-                    this.ctx.drawImage(this.images['shield'], x - size / 2, 350, size, size);
+                    const size = 200; // Increased from 120
+                    this.ctx.drawImage(this.images['shield'], x - size / 2, 330, size, size); // Adjusted y
                 }
             }
         });
@@ -347,7 +357,7 @@ class Game {
                 // Add gentle float or pop-up
                 const offset = Math.sin(Date.now() / 200) * 5;
 
-                const size = 40;
+                const size = 70; // Increased from 40
                 this.ctx.drawImage(this.images['cup'], x - size / 2, y - size / 2 + offset, size, size);
             }
         });
