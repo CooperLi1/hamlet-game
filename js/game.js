@@ -351,7 +351,7 @@ class Game {
                 // Determine position based on actor.
                 // Queen is at 500, 200 (Background). King 400, 200.
                 let x = 500;
-                let y = 150; // Near head level
+                let y = 180; // Slightly lower than head level
 
                 if (anim.actor.name === 'Claudius') x = 400;
                 // Add gentle float or pop-up
