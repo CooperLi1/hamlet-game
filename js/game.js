@@ -167,8 +167,8 @@ class Game {
 
 
             // Draw Background Characters first (behind everything)
-            this.drawBackgroundCharacter(this.king, 400, 200, '#8a1c1c');
-            this.drawBackgroundCharacter(this.queen, 500, 200, '#c5a059');
+            this.drawBackgroundCharacter(this.king, 400, 300, '#8a1c1c');
+            this.drawBackgroundCharacter(this.queen, 500, 300, '#c5a059');
             this.drawDrink();
 
             // Determine if there is an active attack to handle layering
@@ -327,8 +327,8 @@ class Game {
         // Persist Shield if player is defending
         if (this.combatSystem.playerDefending && this.images['shield']) {
             const x = 250; // Player defend impact zone
-            const size = 200; // Increased from 120
-            this.ctx.drawImage(this.images['shield'], x - size / 2, 330, size, size); // Adjusted y
+            const size = 100; // Half as small
+            this.ctx.drawImage(this.images['shield'], x - size / 2, 250, size, size); // Higher (y=250)
         }
 
         // Also check for temporary defend animations (e.g. opponent)
@@ -338,8 +338,8 @@ class Game {
                 if (!anim.actor.isPlayer) x = 550;
                 // Only draw if NOT player (since player is handled by persist check above, prevents double draw)
                 if (!anim.actor.isPlayer) {
-                    const size = 200; // Increased from 120
-                    this.ctx.drawImage(this.images['shield'], x - size / 2, 330, size, size); // Adjusted y
+                    const size = 100; // Half as small
+                    this.ctx.drawImage(this.images['shield'], x - size / 2, 250, size, size); // Higher (y=250)
                 }
             }
         });
@@ -351,13 +351,13 @@ class Game {
                 // Determine position based on actor.
                 // Queen is at 500, 200 (Background). King 400, 200.
                 let x = 500;
-                let y = 180;
+                let y = 280;
 
                 if (anim.actor.name === 'Claudius') x = 400;
                 // Add gentle float or pop-up
                 const offset = Math.sin(Date.now() / 200) * 5;
 
-                const size = 70; // Increased from 40
+                const size = 35; // Reduced by 50% from 70
                 this.ctx.drawImage(this.images['cup'], x - size / 2, y - size / 2 + offset, size, size);
             }
         });
