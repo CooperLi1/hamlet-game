@@ -66,15 +66,9 @@ export default class CombatSystem {
 
         defender.takeDamage(damage);
 
-        // Logic: Shield drops slightly after impact/explosion
-        setTimeout(() => {
-            setTimeout(() => {
-                if (defender.isPlayer) {
-                    this.playerDefending = false;
-                }
-                this.game.clearDefendAnimations(defender);
-            }, 600);
-        }, 600);
+        // Defense state is cleared at the start of playerAction() and nextTurn()
+        // No timeout needed here - this was causing a race condition where
+        // the old timer would fire and clear a newly set defense
 
         // Log to dialogue temporarily
         await this.game.dialogueSystem.showSystemMessage(`${attacker.name} strikes! Deals ${damage} damage.`);
